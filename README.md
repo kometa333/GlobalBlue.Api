@@ -1,4 +1,4 @@
-# GlobalBlue VAT API
+# GlobalBlue API
 
 Simple ASP.NET Core Web API to calculate net, VAT and gross amounts for Austrian VAT rates (10%, 13%, 20%).
 
