@@ -1,105 +1,35 @@
 # GlobalBlue API
 
-Simple ASP.NET Core Web API to calculate net, VAT and gross amounts for Austrian VAT rates (10%, 13%, 20%).
+Simple ASP.NET Core Web API to calculate net, VAT and gross amounts for Austrian VAT rates (10, 13, 20%).
 
----
+1. Clone:
+   ```bash
+   git clone https://github.com/kometa333/GlobalBlue.Api.git
+   cd GlobalBlue.Api
+   ```
 
-## How to run locally
+2. Run via CLI:
+   ```bash
+   dotnet run --launch-profile https
+   ```
+   (listens on https://localhost:7269 and http://localhost:5272)
 
-### 1. Clone the repository
+   or via VS:
+   - Open in VS2022
+   - Pick IIS Express or https profile
+   - F5 to start
 
-```bash
-git clone https://github.com/kometa333/GlobalBlue.Api.git
-```
+3. Open:
+   - Swagger: https://localhost:7269/swagger/index.html
+   - Endpoint: POST https://localhost:7269/api/vat/calculate
 
-### 2. Change directory
+4. Example curl:
+   ```bash
+   curl -k -H "Content-Type: application/json" \
+     -d '{"netAmount":100.0,"vatRate":20}' \
+     https://localhost:7269/api/vat/calculate
+   ```
 
-```bash
-cd GlobalBlue.Api
-```
-
-### 3. Run the API
-
-You have two main ways to start the application:
-
-#### a) Using the .NET CLI with a launch profile
-
-- **HTTPS + HTTP** (uses the `https` profile):
-  ```bash
-  dotnet run --launch-profile "https"
-  ```
-  This will bind to:
-  - HTTPS: `https://localhost:7269`
-  - HTTP:  `http://localhost:5272`
-
-- **HTTP only** (uses the `http` profile):
-  ```bash
-  dotnet run --launch-profile "http"
-  ```
-  This will bind to:
-  - HTTP: `http://localhost:5272`
-
-#### b) Using Visual Studio
-
-1. Open `GlobalBlue.Api.sln` in Visual Studio 2022.
-2. Select the **IIS Express** or **https** profile from the debug target dropdown.
-3. Press **F5** to debug or **Ctrl+F5** to run without debugging.
-
-
-### 4. Open Swagger UI
-
-Once the API is running, open your browser at:
-
-```
-https://localhost:7269/swagger/index.html
-```
-
-The Swagger UI lets you explore and execute the `POST /api/vat/calculate` endpoint.
-
-
-### 5. Calling the endpoint
-
-- **Note:** `GET /api/vat/calculate` will return 404—this endpoint only accepts **POST**.
-
-- **Example `curl`** (HTTPS):
-  ```bash
-  curl -k \
-    -H "Content-Type: application/json" \
-    -d '{"netAmount":100.0,"vatRate":20}' \
-    https://localhost:7269/api/vat/calculate
-  ```
-
-- **Example `curl`** (HTTP):
-  ```bash
-  curl \
-    -H "Content-Type: application/json" \
-    -d '{"grossAmount":120.0,"vatRate":20}' \
-    http://localhost:5272/api/vat/calculate
-  ```
-
----
-
-## Request & Response
-
-- **Request** (`VatCalculationRequest`): provide **exactly one** of `netAmount`, `grossAmount`, or `vatAmount`, plus a valid `vatRate` (`10`, `13`, `20`).
-
-  ```json
-  {
-    "netAmount": 100.0,
-    "vatRate": 20
-  }
-  ```
-
-- **Response** (`VatCalculationResponse`): all three amounts plus the rate.
-
-  ```json
-  {
-    "netAmount": 100.00,
-    "vatAmount": 20.00,
-    "grossAmount": 120.00,
-    "vatRate": 20
-  }
-  ```
-
-
+Request: JSON with one of netAmount/grossAmount/vatAmount + vatRate.
+Response: JSON with netAmount, vatAmount, grossAmount, vatRate.
 
