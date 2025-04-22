@@ -9,7 +9,6 @@ builder.Services.AddSwaggerGen();
 // Register VAT calculator
 builder.Services.AddScoped<GlobalBlue.Api.Services.Interfaces.IVatCalculator, GlobalBlue.Api.Services.VatCalculator>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
