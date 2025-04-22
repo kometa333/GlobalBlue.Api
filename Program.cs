@@ -11,12 +11,9 @@ builder.Services.AddScoped<GlobalBlue.Api.Services.Interfaces.IVatCalculator, Gl
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
